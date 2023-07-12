@@ -1,3 +1,3 @@
 
-porol = '10L1005A051992D1992!'
+porol = ''
 email_ = 'Lad2692'
