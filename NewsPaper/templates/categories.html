@@ -1,4 +1,4 @@
-{% extends 'flatpages/default.html' %}
+% extends 'flatpages/default.html' %}
 
 {% load censor_filters %}
 {% load custom_tags %}
@@ -7,17 +7,10 @@
 Posts
 {% endblock title %}
 
+
 {% block content %}
-    <h1>Поиск новости</h1>
+    <h1>Все новости</h1>
     <h1>Кол-во новостей:{{posts|length}}</h1>
-
-
-    <form action="" method="get">
-        {{ filterset.form.as_p }}
-        <input type="submit" value="Найти" />
-    </form>
-    <hr>
-
     {% if posts %}
         <table>
            <tr>
@@ -28,7 +21,6 @@ Posts
                <td>Категория</td>
                <td>Описание</td>
                <td>Автор</td>
-
            </tr>
            {% for post in posts %}
            <tr>
@@ -46,9 +38,33 @@ Posts
                <td>{{ post.author.users }}</td>
            </tr>
            {% endfor %}
-        </table> <!-- ... и таблицы -->
+        </table>
     {% else %}
+
        <h2>Новостей нет!</h2>
     {% endif %}
+{# Добавляем пагинацию на страницу #}
+
+   {# Информация о предыдущих страницах #}
+   {% if page_obj.has_previous %}
+       <a href="?page=1">1</a>
+       {% if page_obj.previous_page_number != 1 %}
+           ...
+           <a href="?page={{ page_obj.previous_page_number }}">{{ page_obj.previous_page_number }}</a>
+       {% endif %}
+   {% endif %}
+
+   {# Информация о текущей странице #}
+   {{ page_obj.number }}
+
+   {# Информация о следующих страницах #}
+   {% if page_obj.has_next %}
+       <a href="?page={{ page_obj.next_page_number }}">{{ page_obj.next_page_number }}</a>
+       {% if paginator.num_pages != page_obj.next_page_number %}
+           ...
+           <a href="?page={{ page_obj.paginator.num_pages }}">{{ page_obj.paginator.num_pages }}</a>
+       {% endif %}
+   {% endif %}
+
 
 {% endblock content %}

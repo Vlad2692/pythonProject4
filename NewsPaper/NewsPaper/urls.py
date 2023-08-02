@@ -24,5 +24,7 @@ urlpatterns = [
    # подключались к главному приложению с префиксом products/.
    path('news/', include('news.urls')),
    path('articls/', include('news.urls')),
+   path('accounts/', include('accounts.urls')),
+   # path('category/', include('category.urls')),
 
 ]

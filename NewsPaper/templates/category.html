@@ -1,0 +1,52 @@
+{% extends 'flatpages/default.html' %}
+
+{% load censor_filters %}
+{% load custom_tags %}
+
+{% block title %}
+Category
+{% endblock title %}
+
+
+{% block content %}
+    <h1> Новости категории {{ category }}: {{categories|length}} </h1>
+    <em>{% current_time %}</em>
+        {% if is_not_subscriber %}
+            <p class="text-center"><a href="{% url 'subscribe' category.id %}" class="btn btn-secondary btn-sn">Подписаться</a> </p>
+        {% endif %}
+    <hr>
+    {% if categories %}
+        <table>
+            <tr>
+                <td> Заголовок </td>
+                <td> Тип </td>
+                <td> Категория </td>
+                <td> Дата публикации </td>
+                <td> Содержание </td>
+                <td> Автор </td>
+            </tr>
+            {% for post in categories %}
+            <tr>
+                <td> {{ post.header|censor }} </td>
+                <td> {% if post.type == 'NW' %}
+                   Новость
+                   {% elif post.type == 'ST' %}
+                   Статья
+                   {% endif %}
+                </td>
+                <td>
+                   {% for category in post.category.all %}
+                        <a href="{% url 'category_list' category.id %}">{{ category }}</a>
+                   {% endfor %}
+                </td>
+                <td> {{ post.time_in|date:'d m Y' }} </td>
+                <td> {{ post.content|censor|truncatechars:20 }} </td>
+                <td> {{ post.author.users }} </td>
+            </tr>
+            {% endfor %}
+        </table>
+    {% else %}
+        <h2> Новостей в категории {{ category }} на сегодня нет </h2>
+    {% endif %}
+
+{% endblock content %}

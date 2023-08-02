@@ -1,6 +1,7 @@
 from django.contrib.auth.models import User
 from django.db import models
 from django.db.models import Sum
+from datetime import datetime
 
 # Create your models here.
 article = 'ST'
@@ -27,9 +28,9 @@ class Author(models.Model):
 
 class Category(models.Model):
     name_category = models.CharField(max_length=255, unique=True)
-
+    subscribers = models.ManyToManyField(User, blank=True, null=True, related_name="categories")
     def __str__(self):
-        return self.name_category.title()
+        return self.name_category
 
 class Post(models.Model):
     objects = None
@@ -77,7 +78,6 @@ class Comment(models.Model):
     def dislike(self):
         self.rating -= 1
         self.save()
-
 
 
 

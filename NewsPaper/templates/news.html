@@ -34,7 +34,11 @@ Posts
                </td>
                <td>{{ post.time_in|date:'d m Y' }}</td>
                <td>{{ post.time_in|date:'g i s' }}</td>
-               <td>{{ post.category.name_category }}</td>
+               <td>
+                   {% for category in post.category.all %}
+                        <a href="{% url 'category_list' category.id %}">{{ category }}</a>
+                   {% endfor %}
+               </td>
                <td>{{ post.content|censor|truncatechars:20 }}</td>
                <td>{{ post.author.users }}</td>
            </tr>
